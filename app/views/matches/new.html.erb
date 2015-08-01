@@ -1,0 +1,14 @@
+<div>
+  <h1>Invite someone to join?</h1>
+  <em>If you select no one, you can still play by yourself, or leave the game open for someone to join later.</em>
+
+  <br />
+  <br />
+
+  <%= form_for @match, action: :post do |f| %>
+    <%= f.select(:white_user, @users) %>
+    <%= f.submit "Start Match" %>
+  <% end %>
+</div>
+
+

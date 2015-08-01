@@ -1,0 +1,22 @@
+
+<table>
+  <tr>
+    <th>Black User</th>
+    <th>White User</th>
+    <th>Game Active?</th>
+    <th>View as Spectator</th>
+    <th>Join as Player</th>
+  </tr>
+
+  <tr>
+    <% @matches.each do |match| %>
+      <td><%= match.black_player_name %></td>
+      <td><%= match.white_player_name %></td>
+      <td><%= match.active? %></td>
+      <td><%= link_to "View", match_url(match) %></td>
+      <td><%= link_to "Join", "" %>
+    <% end %>
+  </tr>
+</table>
+
+<%= link_to "Start match?", new_match_url %>

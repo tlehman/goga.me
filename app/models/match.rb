@@ -1,4 +1,4 @@
 class Match < ActiveRecord::Base
-  has_one :black_player, class_name: 'User'
-  has_one :white_player, class_name: 'User'
+  belongs_to :black_user, class_name: "UserMatch"
+  belongs_to :white_user, class_name: "UserMatch"
 end
