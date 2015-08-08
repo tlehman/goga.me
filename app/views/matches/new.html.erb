@@ -6,7 +6,7 @@
   <br />
 
   <%= form_for @match, action: :post do |f| %>
-    <%= f.select(:white_user, @users) %>
+    <%= f.select(:white_user, [""] + @users.pluck(:email, :id)) %>
     <%= f.submit "Start Match" %>
   <% end %>
 </div>

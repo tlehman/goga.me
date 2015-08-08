@@ -8,15 +8,15 @@
     <th>Join as Player</th>
   </tr>
 
-  <tr>
-    <% @matches.each do |match| %>
-      <td><%= match.black_player_name %></td>
-      <td><%= match.white_player_name %></td>
+  <% @matches.each do |match| %>
+    <tr>
+      <td><%= match.black_user_name %></td>
+      <td><%= match.white_user_name %></td>
       <td><%= match.active? %></td>
       <td><%= link_to "View", match_url(match) %></td>
-      <td><%= link_to "Join", "" %>
-    <% end %>
-  </tr>
+      <td><%= link_to "Join", "" %></td>
+    </tr>
+  <% end %>
 </table>
 
 <%= link_to "Start match?", new_match_url %>

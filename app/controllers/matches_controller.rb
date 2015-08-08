@@ -22,6 +22,6 @@ class MatchesController < ApplicationController
   private
 
   def match_params
-    params.permit(:id, :black_user_id, :white_user_id)
+    params.require(:match).permit(:white_user)
   end
 end
