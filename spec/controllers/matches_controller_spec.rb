@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe MatchesController, type: :controller do
-  let(:user) { User.new(name: "Jane Doe") }
+  let(:current_user) { FactoryGirl.create(:user, name: "Jane Doe") }
 
   describe "GET index" do
     it "fetches all matches" do
@@ -20,6 +20,9 @@ RSpec.describe MatchesController, type: :controller do
   end
 
   describe "GET new" do
+    before(:each) do
+      sign_in current_user
+    end
 
     it "makes a new Match" do
       get :new
@@ -35,19 +38,32 @@ RSpec.describe MatchesController, type: :controller do
 
 
   describe "POST create" do
+    let(:current_user) { FactoryGirl.create(:user) }
+    let(:white_user) { FactoryGirl.create(:user) }
+
+    before(:each) do
+      sign_in current_user
+    end
+
     it "creates a new Match" do
       expect { post :create }.to change(Match, :count).by(1)
     end
 
     it "sets the black_user_id to current_user's id" do
-      post :create
-      expect(Match.last.black_user_id).to eq(user.id)
+      post :create, match: {"white_user_id" => white_user.id}
+      expect(Match.last.black_user_id).to eq(current_user.id)
     end
 
     context "no white user given" do
+
+      it "sets the white user to a non-nil value" do
+        post :create, match: {"white_user_id" => ""}
+        expect(Match.last.white_user_id).to_not eq(nil)
+      end
+
       it "sets the white user to the black user" do
-        post :create
-        expect(Match.last.black_user_id).to eq(user.id)
+        post :create, match: {"white_user_id" => ""}
+        expect(Match.last.black_user_id).to eq(current_user.id)
       end
     end
 

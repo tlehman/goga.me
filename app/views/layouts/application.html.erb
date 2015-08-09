@@ -12,14 +12,27 @@
 
     <div class="navbar navbar-default">
       <div class="container">
-        <a class="navbar-brand" href="#">Go Game</a>
+        <a class="navbar-brand" href="/">Go Game</a>
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li class="divider-vertical"></li>
-          <li><a href="#">More</a></li>
-          <li><a href="#">Options</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <% if user_signed_in? %>
+                Logged in as: <%= truncate(current_user.email, length: 10) %>
+              <% else %>
+                Sign Up/Login
+              <% end %>
+              <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <% if user_signed_in? %>
+                <li><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %></li>
+                <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></li>
+              <% else %>
+                <li><%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %></li>
+                <li><%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %></li>
+              <% end %>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>
@@ -32,10 +45,6 @@
         <% if alert %>
           <p class="alert alert-danger"><%= alert %></p>
         <% end %>
-      </div>
-
-      <div class="jumbotron text-center">
-        <p class="lead">Below is a list of all go games currently being played on the site:</p>
       </div>
 
       <div class="text-center">

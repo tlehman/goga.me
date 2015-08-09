@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  belongs_to :user_match
-  has_many :user_matches
+
+  has_many :black_matches, class_name: "Match", foreign_key: :black_user_id
+  has_many :white_matches, class_name: "Match", foreign_key: :white_user_id
 end

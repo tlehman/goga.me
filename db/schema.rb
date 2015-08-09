@@ -19,9 +19,9 @@ ActiveRecord::Schema.define(version: 20150808053116) do
   create_table "matches", force: :cascade do |t|
     t.integer  "black_user_id"
     t.integer  "white_user_id"
-    t.boolean  "active"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.boolean  "active",        default: true
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   create_table "moves", force: :cascade do |t|
@@ -30,13 +30,6 @@ ActiveRecord::Schema.define(version: 20150808053116) do
     t.integer  "color",      default: 0
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-  end
-
-  create_table "user_matches", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "match_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
