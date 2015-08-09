@@ -5,6 +5,7 @@ gem 'rails', '4.2.3'
 gem 'responders'
 gem 'pg'
 gem 'devise'
+gem 'bootstrap-sass', '~> 3.3.5'
 gem 'sass-rails', '~> 5.0'
 
 # assets
