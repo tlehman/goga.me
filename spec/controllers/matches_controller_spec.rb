@@ -46,12 +46,17 @@ RSpec.describe MatchesController, type: :controller do
     end
 
     it "creates a new Match" do
-      expect { post :create }.to change(Match, :count).by(1)
+      expect { post :create, match: {} }.to change(Match, :count).by(1)
     end
 
     it "sets the black_user_id to current_user's id" do
-      post :create, match: {"white_user_id" => white_user.id}
+      post :create, match: {"white_user_id" => white_user.id, "board_width" => "19"}
       expect(Match.last.black_user_id).to eq(current_user.id)
+    end
+
+    it "creates a 19x19 board" do
+      post :create, match: {"white_user_id" => white_user.id, "board_width" => "19"}
+      expect(assigns[:match].board_width).to eq(19)
     end
 
     context "no white user given" do
@@ -71,6 +76,7 @@ RSpec.describe MatchesController, type: :controller do
 
   describe "PATCH update" do
     let(:other_user) { FactoryGirl.create(:user, email: "other@example.com") }
+    let(:another_user) { FactoryGirl.create(:user, email: "another@example.com") }
     before(:each) do
       sign_in current_user
     end
@@ -82,6 +88,17 @@ RSpec.describe MatchesController, type: :controller do
           patch :update, id: match.id
           match.reload
         }.to change(match, :white_user_id).from(other_user.id).to(current_user.id)
+      end
+
+      context "when match has two different users" do
+        let(:match) { FactoryGirl.create(:match, black_user: other_user, white_user: another_user) }
+
+        it "does not allow a third user to join" do
+          expect {
+            patch :update, id: match.id
+            match.reload
+          }.to_not change(match, :white_user_id).from(another_user.id)
+        end
       end
     end
   end

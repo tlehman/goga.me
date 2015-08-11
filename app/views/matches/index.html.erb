@@ -7,11 +7,14 @@
   th { padding: 12px; }
   td { padding: 12px; }
 </style>
+
+<%= link_to "Start match?", new_match_url %>
+
 <table class="matches">
   <tr>
     <th>Black</th>
     <th>White</th>
-    <th>Active?</th>
+    <th>Board size</th>
     <th>View as Spectator</th>
     <th>Join as Player</th>
   </tr>
@@ -20,15 +23,13 @@
     <tr>
       <td><%= match.black_user_email %></td>
       <td><%= match.white_user_email %></td>
-      <td><%= match.active? %></td>
+      <td><%= match.board_width %>x<%= match.board_width %></td>
       <td><%= link_to "View", match_url(match) %></td>
       <td>
         <%= form_for match, action: :patch do |f| %>
-          <%= f.submit "Join" %>
+          <%= f.submit "Join" unless match.joined? %>
         <% end %>
       </td>
     </tr>
   <% end %>
 </table>
-
-<%= link_to "Start match?", new_match_url %>

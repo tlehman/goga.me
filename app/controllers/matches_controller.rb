@@ -3,7 +3,7 @@ class MatchesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
 
   def index
-    @matches = Match.all
+    @matches = Match.all.order("id DESC")
   end
 
   def show
@@ -15,15 +15,21 @@ class MatchesController < ApplicationController
     @users = User.all
   end
 
-  def update
-    @match = Match.find_by(id: params['id'])
-    @match.update_attributes(white_user_id: current_user.id)
-    @match.save
+  def create
+    @match = Match.create(black_user: black_user, white_user: white_user)
+    @match.create_board(board_width)
     respond_with @match
   end
 
-  def create
-    @match = Match.create(black_user: black_user, white_user: white_user)
+  def update
+    @match = Match.find_by(id: params['id'])
+    if @match.joined?
+      flash[:error] = "Match has already been joined by another player"
+    else
+      @match.update_attributes(white_user_id: current_user.id)
+      @match.save
+    end
+
     respond_with @match
   end
 
@@ -42,6 +48,10 @@ class MatchesController < ApplicationController
 
   def white_user_id
     params['match'] && params['match']['white_user_id']
+  end
+
+  def board_width
+    params['match']['board_width'].to_i
   end
 end
 

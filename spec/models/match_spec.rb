@@ -11,4 +11,25 @@ RSpec.describe Match, type: :model do
     expect(black_user.black_matches).to include(match)
     expect(white_user.white_matches).to include(match)
   end
+
+  describe "#create_board" do
+    let(:width) { 19 }
+
+    it "creates a 19x19 Board for the Match" do
+      match.create_board(width)
+      expect(match.board).to be_a(Board)
+      expect(match.board_width).to eq(width)
+    end
+  end
+
+  describe "#joined?" do
+    subject { match.joined? }
+    it { is_expected.to eq(true) }
+
+    context "when users are the same" do
+      let(:white_user) { black_user }
+
+      it { is_expected.to eq(false) }
+    end
+  end
 end
