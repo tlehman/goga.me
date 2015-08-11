@@ -3,23 +3,30 @@
   <p class="lead">Below is a list of all go games currently being played on the site:</p>
 </div>
 
-
-<table>
+<style type="text/css">
+  th { padding: 12px; }
+  td { padding: 12px; }
+</style>
+<table class="matches">
   <tr>
-    <th>Black User</th>
-    <th>White User</th>
-    <th>Game Active?</th>
+    <th>Black</th>
+    <th>White</th>
+    <th>Active?</th>
     <th>View as Spectator</th>
     <th>Join as Player</th>
   </tr>
 
   <% @matches.each do |match| %>
     <tr>
-      <td><%= match.black_user_name %></td>
-      <td><%= match.white_user_name %></td>
+      <td><%= match.black_user_email %></td>
+      <td><%= match.white_user_email %></td>
       <td><%= match.active? %></td>
       <td><%= link_to "View", match_url(match) %></td>
-      <td><%= link_to "Join", "" %></td>
+      <td>
+        <%= form_for match, action: :patch do |f| %>
+          <%= f.submit "Join" %>
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>

@@ -15,6 +15,13 @@ class MatchesController < ApplicationController
     @users = User.all
   end
 
+  def update
+    @match = Match.find_by(id: params['id'])
+    @match.update_attributes(white_user_id: current_user.id)
+    @match.save
+    respond_with @match
+  end
+
   def create
     @match = Match.create(black_user: black_user, white_user: white_user)
     respond_with @match

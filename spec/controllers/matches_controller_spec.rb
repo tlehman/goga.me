@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe MatchesController, type: :controller do
-  let(:current_user) { FactoryGirl.create(:user, name: "Jane Doe") }
+  let(:current_user) { FactoryGirl.create(:user, name: "Jane Doe", email: "jdoe@example.com") }
 
   describe "GET index" do
     it "fetches all matches" do
@@ -67,5 +67,22 @@ RSpec.describe MatchesController, type: :controller do
       end
     end
 
+  end
+
+  describe "PATCH update" do
+    let(:other_user) { FactoryGirl.create(:user, email: "other@example.com") }
+    before(:each) do
+      sign_in current_user
+    end
+
+    context "to join the match" do
+      let(:match) { FactoryGirl.create(:match, black_user: other_user, white_user: other_user) }
+      it "sets the match's white_user to current_user" do
+        expect {
+          patch :update, id: match.id
+          match.reload
+        }.to change(match, :white_user_id).from(other_user.id).to(current_user.id)
+      end
+    end
   end
 end
