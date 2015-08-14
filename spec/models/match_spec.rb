@@ -13,12 +13,12 @@ RSpec.describe Match, type: :model do
   end
 
   describe "#create_board" do
-    let(:width) { 19 }
+    let(:size) { 19 }
 
     it "creates a 19x19 Board for the Match" do
-      match.create_board(width)
+      match.create_board(size)
       expect(match.board).to be_a(Board)
-      expect(match.board_width).to eq(width)
+      expect(match.board_size).to eq(size)
     end
   end
 

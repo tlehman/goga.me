@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20150813041221) do
 
   create_table "boards", force: :cascade do |t|
     t.integer "match_id"
-    t.integer "width"
+    t.integer "size"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -30,9 +30,11 @@ ActiveRecord::Schema.define(version: 20150813041221) do
   end
 
   create_table "moves", force: :cascade do |t|
-    t.integer  "match_id"
+    t.integer  "board_id"
     t.integer  "user_id"
     t.integer  "color",      default: 0
+    t.integer  "x"
+    t.integer  "y"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end

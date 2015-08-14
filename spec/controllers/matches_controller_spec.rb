@@ -5,8 +5,9 @@ RSpec.describe MatchesController, type: :controller do
 
   describe "GET index" do
     it "fetches all matches" do
+      FactoryGirl.create(:match)
       get :index
-      expect(assigns[:matches]).to eq(Match.all)
+      expect(assigns[:matches].map(&:id)).to eq(Match.pluck(:id))
     end
   end
 
@@ -50,13 +51,13 @@ RSpec.describe MatchesController, type: :controller do
     end
 
     it "sets the black_user_id to current_user's id" do
-      post :create, match: {"white_user_id" => white_user.id, "board_width" => "19"}
+      post :create, match: {"white_user_id" => white_user.id, "board_size" => "19"}
       expect(Match.last.black_user_id).to eq(current_user.id)
     end
 
     it "creates a 19x19 board" do
-      post :create, match: {"white_user_id" => white_user.id, "board_width" => "19"}
-      expect(assigns[:match].board_width).to eq(19)
+      post :create, match: {"white_user_id" => white_user.id, "board_size" => "19"}
+      expect(assigns[:match].board_size).to eq(19)
     end
 
     context "no white user given" do

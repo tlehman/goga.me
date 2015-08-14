@@ -17,7 +17,7 @@ class MatchesController < ApplicationController
 
   def create
     @match = Match.create(black_user: black_user, white_user: white_user)
-    @match.create_board(board_width)
+    @match.create_board(board_size)
     respond_with @match
   end
 
@@ -50,8 +50,8 @@ class MatchesController < ApplicationController
     params['match'] && params['match']['white_user_id']
   end
 
-  def board_width
-    params['match']['board_width'].to_i
+  def board_size
+    params['match']['board_size'].to_i
   end
 end
 
