@@ -3,10 +3,10 @@
   <%= form_for @match, action: :post do |f| %>
     <h2>Choose size of the board</h2>
     <%= f.label :board_size, '9x9' %>
-    <%= f.radio_button :board_size, '9', checked: true %>
+    <%= f.radio_button :board_size, '9' %>
 
     <%= f.label :board_size, '13x13' %>
-    <%= f.radio_button :board_size, '13' %>
+    <%= f.radio_button :board_size, '13', checked: true %>
 
     <%= f.label :board_size, '19x19' %>
     <%= f.radio_button :board_size, '19' %>

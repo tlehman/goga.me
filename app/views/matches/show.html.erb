@@ -2,11 +2,16 @@
 <%= @match.black_user_email %> vs <%= @match.white_user_email %>
 </header>
 
-<svg id="board">
+<br>
+<br>
+<br>
+
+<svg id="board" width="<%= @width %>" height="<%= @width %>">
+  <%= raw draw_board_svg(size: @match.board_size, width: @width) %>
 </svg>
 
 <script type="text/javascript">
-  var board = Snap("#board");
+  //var board = Snap("#board");
 
   // Draw board
   // Get data from server

@@ -8,6 +8,7 @@ class MatchesController < ApplicationController
 
   def show
     @match = Match.find(params['id'])
+    @width = @match.board_size*50
   end
 
   def new
