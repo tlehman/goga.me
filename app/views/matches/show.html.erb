@@ -6,15 +6,18 @@
 <br>
 <br>
 
-<svg id="board" width="<%= @width %>" height="<%= @width %>">
+<svg id="board" width="<%= @width + BoardHelper::OFFSET %>" height="<%= @width + BoardHelper::OFFSET %>">
   <%= raw draw_board_svg(size: @match.board_size, width: @width) %>
+  <%= raw draw_grid_intersection_points(size: @match.board_size, width: @width) %>
+  <script type="text/javascript"><![CDATA[
+    function handleMove(x,y) {
+      console.log(x + "," + y);
+    }
+
+  ]]></script>
 </svg>
 
 <script type="text/javascript">
-  //var board = Snap("#board");
-
-  // Draw board
-  // Get data from server
-  // Draw data
+  var board = Snap("#board");
 </script>
 
