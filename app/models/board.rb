@@ -13,6 +13,10 @@ class Board < ActiveRecord::Base
     moves.where(x:x, y:y).count > 0
   end
 
+  def position(x:, y:) 
+    moves.where(x:x, y:y).first
+  end
+
   def color_same_as_last_move?(color)
     return false if moves.empty?
 
