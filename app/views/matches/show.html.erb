@@ -18,7 +18,7 @@
     });
 
     function handleMove(x,y) {
-      dispatcher.trigger('update_board', {match_id: <%= @match.id %>, x: x, y: y});
+      dispatcher.trigger('update_board', {match_id: <%= @match.id %>, x: x, y: y, user_id: <%= current_user.id %>});
     }
   ]]></script>
 </svg>
