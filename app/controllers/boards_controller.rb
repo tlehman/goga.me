@@ -3,19 +3,23 @@ class BoardsController < WebsocketRails::BaseController
   attr_reader :board
 
   def update
-    x = message[:x]
-    y = message[:y]
-    user = User.find_by(id: message[:user_id])
-    board.play_move(x: x, y: y, color: color, user: current_user)
-    move = board.position(x: x, y: y)
-    if move.nil?
-      send_message('show_board', message: {x: x, y: y, user_id: current_user.id})
-    end
+    error = BoardService.attempt_move(x, y, current_user, board)
+    board_state = BoardPresenter.new(board).to_a
+
+    send_message('show_board', message: {error: error, board_state: board_state})
   end
 
   private
 
-  def board
+  def x
+    message[:x]
+  end
+
+  def y
+    message[:h]
+  end
+
+  def ensure_board
     @board ||= Board.find_by(match_id: message[:match_id])
   end
 end

@@ -20,7 +20,7 @@ class Match < ActiveRecord::Base
   end
 
   def create_board(size = 19)
-    return unless board.nil?
+    return board if board.present?
 
     self.board = Board.create(size: size, match_id: self.id)
   end

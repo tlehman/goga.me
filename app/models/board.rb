@@ -13,7 +13,7 @@ class Board < ActiveRecord::Base
     moves.where(x:x, y:y).count > 0
   end
 
-  def position(x:, y:) 
+  def position(x:, y:)
     moves.where(x:x, y:y).first
   end
 
