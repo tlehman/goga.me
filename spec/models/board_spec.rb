@@ -23,6 +23,7 @@ RSpec.describe Board, type: :model do
 
     context "when one user tries to play twice in row" do
       it "does not allow the move" do
+        expect(board.match.white_user_id).to_not eq(board.match.black_user_id)
         board.play_move(x: 1, y: 1, color: :black, user: black_user)
         board.play_move(x: 1, y: 2, color: :black, user: black_user)
         expect(board.moves.count).to eq(1)

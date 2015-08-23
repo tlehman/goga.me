@@ -24,6 +24,25 @@ RSpec.describe BoardService do
       }.to change(board.moves, :count).by(1)
     end
 
+    context "when match is not joined (user playing solo game)" do
+      let(:match) { FactoryGirl.create(:match, black_user: black_user, white_user: black_user) }
+
+      it "is not joined for a match" do
+        expect(match.joined?).to eq(false)
+      end
+
+      it "alternates colors with each move" do
+        expect(board).to receive(:play_move).with(x: 1, y: 1, user: black_user, color: :black).and_call_original
+        service.attempt_move(x: 1, y: 1, user: black_user, board: board)
+
+        expect(board).to receive(:play_move).with(x: 1, y: 2, user: black_user, color: :white).and_call_original
+        service.attempt_move(x: 1, y: 2, user: black_user, board: board)
+
+        expect(board).to receive(:play_move).with(x: 1, y: 3, user: black_user, color: :black).and_call_original
+        service.attempt_move(x: 1, y: 3, user: black_user, board: board)
+      end
+    end
+
     context "when x,y is out of bounds" do
       it "returns an out of bounds error" do
         expect(service.attempt_move(x: -1, y: -1, user: black_user, board: board)).to eq(

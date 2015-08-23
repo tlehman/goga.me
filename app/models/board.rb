@@ -4,9 +4,10 @@ class Board < ActiveRecord::Base
 
   def play_move(x:, y:, color:, user:)
     move = Move.new(x: x, y: y, color: color, user: user)
-    return if color_same_as_last_move?(color)
-    return if position_occupied?(x:x, y:y)
+    return "color same as last" if color_same_as_last_move?(color)
+    return "position occupied" if position_occupied?(x:x, y:y)
     moves << move
+    return "no error: #{moves.count} moves"
   end
 
   def position_occupied?(x:, y:)
@@ -18,7 +19,7 @@ class Board < ActiveRecord::Base
   end
 
   def color_same_as_last_move?(color)
-    return false if moves.empty?
+    return false if moves.empty? || !match.joined?
 
     last_move.color == color.to_s
   end

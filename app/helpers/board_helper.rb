@@ -29,7 +29,7 @@ module BoardHelper
         x1 = OFFSET + (xi-1)*width/size
         y1 = OFFSET + (yi-1)*width/size
 
-        "<circle cx=\"#{x1}\" cy=\"#{y1}\" r=\"10\" onclick=\"handleMove(#{xi},#{yi})\" style=\"opacity:0;\" />"
+        "<circle id=\"#{xi}_#{yi}\" cx=\"#{x1}\" cy=\"#{y1}\" r=\"10\" onclick=\"handleMove(#{xi},#{yi})\" style=\"opacity:0;\" />"
       end
     end
 

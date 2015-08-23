@@ -12,11 +12,11 @@ RSpec.describe MatchesController, type: :controller do
   end
 
   describe "GET show" do
-    let(:match) { FactoryGirl.create(:match) }
+    let(:board) { FactoryGirl.create(:board, size: 9) }
 
     it "fetches the right show" do
-      get :show, id: match.id
-      expect(assigns[:match]).to eq(match)
+      get :show, id: board.match_id
+      expect(assigns[:match]).to eq(board.match)
     end
   end
 

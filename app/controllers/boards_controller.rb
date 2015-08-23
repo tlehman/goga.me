@@ -2,11 +2,16 @@ class BoardsController < WebsocketRails::BaseController
   before_filter :ensure_board
   attr_reader :board
 
+  def show
+    board_state = BoardPresenter.new(board).to_a
+    send_message('show_board', message: {board_state: board_state})
+  end
+
   def update
-    error = BoardService.attempt_move(x, y, current_user, board)
+    error_message = BoardService.attempt_move(x: x, y: y, user: current_user, board: board)
     board_state = BoardPresenter.new(board).to_a
 
-    send_message('show_board', message: {error: error, board_state: board_state})
+    send_message('show_board', message: {error_message: error_message, board_state: board_state})
   end
 
   private
@@ -16,7 +21,7 @@ class BoardsController < WebsocketRails::BaseController
   end
 
   def y
-    message[:h]
+    message[:y]
   end
 
   def ensure_board

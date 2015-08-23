@@ -13,8 +13,20 @@
     var board = Snap("#board");
     var dispatcher = new WebSocketRails("localhost:5006/websocket");
 
+    function drawBoard(points) {
+      for(var i = 0; i < points.length; i++) {
+        var point = points[i];
+        var id = "#" + point.x + "_" + point.y;
+        $(id).css("fill", point.color);
+        $(id).css("opacity", 1);
+      }
+    }
+    dispatcher.trigger('show_board', {match_id: <%= @match.id %>});
+
     dispatcher.bind('show_board', function(data) {
-      console.log(data.message);
+      console.log(data.message.error_message);
+      console.log(data.message.board_state);
+      drawBoard(data.message.board_state);
     });
 
     function handleMove(x,y) {

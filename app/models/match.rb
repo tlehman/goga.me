@@ -5,18 +5,10 @@ class Match < ActiveRecord::Base
 
   delegate :email, to: :black_user, prefix: true, allow_nil: true
   delegate :email, to: :white_user, prefix: true, allow_nil: true
+  delegate :size, to: :board, prefix: true, allow_nil: true
 
   def joined?
     black_user_id != white_user_id
-  end
-
-  def board_size
-    if board.nil?
-      create_board
-      reload
-    end
-
-    board.size
   end
 
   def create_board(size = 19)
