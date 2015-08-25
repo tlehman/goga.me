@@ -10,7 +10,6 @@
   <%= raw draw_board_svg(size: @match.board_size, width: @width) %>
   <%= raw draw_grid_intersection_points(size: @match.board_size, width: @width) %>
   <script type="text/javascript"><![CDATA[
-    var board = Snap("#board");
     var dispatcher = new WebSocketRails("localhost:5006/websocket");
 
     function drawBoard(points) {
@@ -30,7 +29,9 @@
     });
 
     function handleMove(x,y) {
-      dispatcher.trigger('update_board', {match_id: <%= @match.id %>, x: x, y: y, user_id: <%= current_user.id %>});
+      <% if current_user.present? %>
+        dispatcher.trigger('update_board', {match_id: <%= @match.id %>, x: x, y: y, user_id: <%= current_user.id %>});
+      <% end %>
     }
   ]]></script>
 </svg>
