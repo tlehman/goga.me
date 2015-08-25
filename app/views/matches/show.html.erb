@@ -6,7 +6,9 @@
 <br>
 <br>
 
-<svg id="board" width="<%= @width + BoardHelper::OFFSET %>" height="<%= @width + BoardHelper::OFFSET %>">
+<% w = @width + BoardHelper::OFFSET %>
+<svg id="board" width="<%= w %>" height="<%= w %>">
+<rect xmlns="http://www.w3.org/2000/svg" width="<%= w %>" height="<%= w %>" fill="#DCB35C"/>
   <%= raw draw_board_svg(size: @match.board_size, width: @width) %>
   <%= raw draw_grid_intersection_points(size: @match.board_size, width: @width) %>
   <script type="text/javascript"><![CDATA[

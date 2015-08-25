@@ -8,7 +8,7 @@ module BoardHelper
 
       y1 = OFFSET + i*width/size
       y2 = OFFSET + i*width/size
-      "<line x1=\"#{x1}\" y1=\"#{y1}\" x2=\"#{x2}\" y2=\"#{y2}\" style=\"stroke:rgb(130,130,130);stroke-width:1\" />"
+      "<line x1=\"#{x1}\" y1=\"#{y1}\" x2=\"#{x2}\" y2=\"#{y2}\" style=\"stroke:rgb(100,100,100);stroke-width:1\" />"
     end
 
     horizontal = size.times.map do |i|
@@ -17,7 +17,7 @@ module BoardHelper
 
       y1 = OFFSET
       y2 = OFFSET + (width - width/size.to_f)
-      "<line x1=\"#{x1}\" y1=\"#{y1}\" x2=\"#{x2}\" y2=\"#{y2}\" style=\"stroke:rgb(130,130,130);stroke-width:1\" />"
+      "<line x1=\"#{x1}\" y1=\"#{y1}\" x2=\"#{x2}\" y2=\"#{y2}\" style=\"stroke:rgb(100,100,100);stroke-width:1\" />"
     end
 
     (vertical + horizontal).join("\n")
