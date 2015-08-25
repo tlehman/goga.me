@@ -32,4 +32,5 @@ RSpec.describe Match, type: :model do
       it { is_expected.to eq(false) }
     end
   end
+
 end

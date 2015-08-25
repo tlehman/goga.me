@@ -8,7 +8,7 @@ module BoardHelper
 
       y1 = OFFSET + i*width/size
       y2 = OFFSET + i*width/size
-      "<line x1=\"#{x1}\" y1=\"#{y1}\" x2=\"#{x2}\" y2=\"#{y2}\" style=\"stroke:rgb(30,30,30);stroke-width:1\" />"
+      "<line x1=\"#{x1}\" y1=\"#{y1}\" x2=\"#{x2}\" y2=\"#{y2}\" style=\"stroke:rgb(130,130,130);stroke-width:1\" />"
     end
 
     horizontal = size.times.map do |i|
@@ -17,7 +17,7 @@ module BoardHelper
 
       y1 = OFFSET
       y2 = OFFSET + (width - width/size.to_f)
-      "<line x1=\"#{x1}\" y1=\"#{y1}\" x2=\"#{x2}\" y2=\"#{y2}\" style=\"stroke:rgb(30,30,30);stroke-width:1\" />"
+      "<line x1=\"#{x1}\" y1=\"#{y1}\" x2=\"#{x2}\" y2=\"#{y2}\" style=\"stroke:rgb(130,130,130);stroke-width:1\" />"
     end
 
     (vertical + horizontal).join("\n")
@@ -29,7 +29,7 @@ module BoardHelper
         x1 = OFFSET + (xi-1)*width/size
         y1 = OFFSET + (yi-1)*width/size
 
-        "<circle id=\"#{xi}_#{yi}\" cx=\"#{x1}\" cy=\"#{y1}\" r=\"10\" onclick=\"handleMove(#{xi},#{yi})\" style=\"opacity:0;\" />"
+        "<circle id=\"#{xi}_#{yi}\" cx=\"#{x1}\" cy=\"#{y1}\" r=\"17\" stroke=\"black\" onclick=\"handleMove(#{xi},#{yi})\" style=\"opacity:0;\" />"
       end
     end
 
