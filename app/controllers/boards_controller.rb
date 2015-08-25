@@ -4,17 +4,20 @@ class BoardsController < WebsocketRails::BaseController
 
   def show
     board_state = BoardPresenter.new(board).to_a
-    send_message('show_board', message: {board_state: board_state})
+    match_show_board(board_state)
   end
 
   def update
     error_message = BoardService.attempt_move(x: x, y: y, user: current_user, board: board)
     board_state = BoardPresenter.new(board).to_a
-
-    send_message('show_board', message: {error_message: error_message, board_state: board_state})
+    match_show_board(board_state)
   end
 
   private
+
+  def match_show_board(board_state)
+    WebsocketRails["match_#{board.match_id}".to_sym].trigger(:show_board, message: {board_state: board_state})
+  end
 
   def x
     message[:x]

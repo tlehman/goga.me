@@ -11,6 +11,7 @@
   <%= raw draw_grid_intersection_points(size: @match.board_size, width: @width) %>
   <script type="text/javascript"><![CDATA[
     var dispatcher = new WebSocketRails("localhost:5006/websocket");
+    var channel = dispatcher.subscribe("match_" + <%= @match.id %>);
 
     function drawBoard(points) {
       for(var i = 0; i < points.length; i++) {
@@ -22,11 +23,12 @@
     }
     dispatcher.trigger('show_board', {match_id: <%= @match.id %>});
 
-    dispatcher.bind('show_board', function(data) {
+    channel.bind('show_board', function(data) {
       console.log(data.message.error_message);
       console.log(data.message.board_state);
       drawBoard(data.message.board_state);
     });
+
 
     function handleMove(x,y) {
       <% if current_user.present? %>
