@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Board, type: :model do
-  let(:black_user) { FactoryGirl.build(:user) }
-  let(:white_user) { FactoryGirl.build(:user) }
-  let(:match) { FactoryGirl.build(:match, black_user: black_user, white_user: white_user) }
+  let(:black_user) { FactoryGirl.create(:user) }
+  let(:white_user) { FactoryGirl.create(:user) }
+  let(:match) { FactoryGirl.create(:match, black_user: black_user, white_user: white_user) }
   before { match.create_board(9) }
   subject(:board) { match.board }
 

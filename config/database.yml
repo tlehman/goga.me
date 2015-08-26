@@ -13,3 +13,7 @@ test:
   <<: *default
   database: goga_me_test
 
+production:
+  username: rails
+  password: <%= ENV['GOGAME_DATABASE_PASSWORD'] %>
+
