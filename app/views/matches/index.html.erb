@@ -20,7 +20,7 @@
       <td><%= match.black_user_email %></td>
       <td><%= match.white_user_email %></td>
       <td><%= match.board_size %>x<%= match.board_size %></td>
-      <td><%= link_to "View", match_url(match) %></td>
+      <td><%= link_to "View", match_path(match) %></td>
       <td>
         <%= form_for match, action: :patch do |f| %>
           <%= f.submit "Join" unless match.joined? %>
