@@ -12,7 +12,7 @@
   <%= raw draw_board_svg(size: @match.board_size, width: @width) %>
   <%= raw draw_grid_intersection_points(size: @match.board_size, width: @width) %>
   <script type="text/javascript"><![CDATA[
-    var dispatcher = new WebSocketRails('<%= websocket_url.gsub(/http:\/\//, '') %>');
+    var dispatcher = new WebSocketRails('<%= URI.join(request.host, websocket_path) %>');
     var channel = dispatcher.subscribe("match_" + <%= @match.id %>);
 
     function drawBoard(points) {
