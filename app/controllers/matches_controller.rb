@@ -7,6 +7,7 @@ class MatchesController < ApplicationController
   end
 
   def show
+    @websocket_url = websocket_url
     @match = Match.find(params['id'])
     @width = @match.board_size*50
   end
@@ -53,6 +54,12 @@ class MatchesController < ApplicationController
 
   def board_size
     params['match']['board_size'].to_i
+  end
+
+  def websocket_url
+    return "goga.me/websocket" if Rails.env.production?
+
+    "#{request.host_with_port}/websocket"
   end
 end
 
