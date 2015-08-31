@@ -1,5 +1,6 @@
 class Board < ActiveRecord::Base
   belongs_to :match
+  delegate :state, to: :presenter
   has_many :moves
 
   def play_move(x:, y:, color:, user:)
@@ -7,6 +8,7 @@ class Board < ActiveRecord::Base
     return "color same as last" if color_same_as_last_move?(color)
     return "position occupied" if position_occupied?(x:x, y:y)
     moves << move
+    capture_surrounded_groups
     return "no error: #{moves.count} moves"
   end
 
@@ -26,6 +28,15 @@ class Board < ActiveRecord::Base
 
   def last_move
     moves.order("created_at ASC").last
+  end
+
+  def capture_surrounded_groups
+    presenter.components_adjacent_to_last_move.each do |component|
+    end
+  end
+
+  def presenter
+    @presenter ||= BoardPresenter.new(self)
   end
 end
 

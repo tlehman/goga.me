@@ -40,6 +40,32 @@ RSpec.describe Board, type: :model do
       end
     end
 
+    it "captures a single piece" do
+      board.play_move(x: 4, y: 5, color: :black, user: black_user)
+      board.play_move(x: 5, y: 5, color: :white, user: white_user)
+      board.play_move(x: 9, y: 4, color: :black, user: black_user)
+      board.play_move(x: 4, y: 4, color: :white, user: white_user)
+      board.play_move(x: 8, y: 4, color: :black, user: black_user)
+      board.play_move(x: 3, y: 5, color: :white, user: white_user)
+      board.play_move(x: 8, y: 5, color: :black, user: black_user)
+      board.play_move(x: 4, y: 6, color: :white, user: white_user)
+      puts "\n"
+      puts board.state
+      puts "\n"
+      expect(board.state.to_a).to eq(
+        [[0,0,0,0,0,0,0,0,0],
+         [0,0,0,0,0,0,0,0,0],
+         [0,0,0,0,0,0,0,0,0],
+         [0,0,0,2,0,0,0,1,1],
+         [0,0,2,0,2,0,0,1,0],
+         [0,0,0,2,0,0,0,0,0],
+         [0,0,0,0,0,0,0,0,0],
+         [0,0,0,0,0,0,0,0,0],
+         [0,0,0,0,0,0,0,0,0]]
+      )
+    end
+
   end
+
 end
 
