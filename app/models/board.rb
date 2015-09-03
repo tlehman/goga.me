@@ -31,7 +31,10 @@ class Board < ActiveRecord::Base
   end
 
   def capture_surrounded_groups
-    presenter.components_adjacent_to_last_move.each do |component|
+    presenter.components_opposite_color_of_last_move.each do |component|
+      if presenter.state.total_liberties(component) == 0
+        puts "DESTROY #{components.to_a}"
+      end
     end
   end
 

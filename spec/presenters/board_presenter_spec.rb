@@ -33,7 +33,6 @@ RSpec.describe BoardPresenter do
 
       describe "#team_neighbors" do
         it "picks all neighbors of the same color" do
-          puts state
           u = Point.new(2,3,black)
           expect(state.team_neighbors(u)).to eq(Set.new([
             Point.new(2,2,black),
@@ -147,7 +146,7 @@ RSpec.describe BoardPresenter do
       end
     end
 
-    describe "#components_adjacent_to_last_move" do
+    describe "#components_opposite_color_of_last_move" do
       let(:black_top) { Set.new([Point.new(4,3,black)]) }
       let(:black_left) {
         Set.new(
@@ -160,8 +159,9 @@ RSpec.describe BoardPresenter do
       }
 
       it "returns the similar connected components of the adjacent pieces" do
+        puts presenter.state
         expected_components = Set.new([black_left, black_top])
-        expect(presenter.components_adjacent_to_last_move).to eq(expected_components)
+        expect(presenter.components_opposite_color_of_last_move).to eq(expected_components)
       end
     end
   end

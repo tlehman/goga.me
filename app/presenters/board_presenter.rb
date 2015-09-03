@@ -15,7 +15,7 @@ class BoardPresenter
     State.new(board_size, moves)
   end
 
-  def components_adjacent_to_last_move
+  def components_opposite_color_of_last_move
     point = Point.from_move(board.last_move)
     inverted_neighbors = state.enemy_neighbors(point)
     Set.new(inverted_neighbors.map { |n| find_component_containing(n) })
