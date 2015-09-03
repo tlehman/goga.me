@@ -16,10 +16,8 @@ class BoardPresenter
   end
 
   def components_adjacent_to_last_move
-    # to get points of the opposite color, just flip the color
-    inverted_point = Point.from_move(board.last_move)
-    inverted_point.flip_color!
-    inverted_neighbors = state.neighbors(inverted_point)
+    point = Point.from_move(board.last_move)
+    inverted_neighbors = state.neighbors(point, false)
     Set.new(inverted_neighbors.map { |n| find_component_containing(n) })
   end
 
@@ -39,7 +37,7 @@ class BoardPresenter
       searched.add(v)
     end
 
-    searched
+    Component.new(searched)
   end
 
   def to_a
@@ -50,14 +48,16 @@ class BoardPresenter
     def self.from_move(move)
       point = new(move.x, move.y, Move.colors[move.color])
     end
+  end
 
-    def flip_color!
-      self.color = if (color == Move.colors["black"])
-                     Move.colors["white"]
-                   else
-                     Move.colors["black"]
-                   end
+  class Component < Set
+
+    def initialize(state, *args)
+      @state = state
+      super
+      self
     end
+
   end
 
   class State
@@ -84,6 +84,20 @@ class BoardPresenter
       @locations[y-1][x-1] = value
     end
 
+    def liberties(point)
+      return 0 if point.color == Move.colors["blank"]
+      (4 + 1) - (neighbors(point).count + neighbors(point, false).count)
+    end
+
+    def total_liberties(component)
+      retval = 0
+      component.each do |point|
+        retval += liberties(point)
+      end
+      retval
+    end
+
+
     # find all neighbors of a point v
     def neighbors(v, same_color = true)
       x = v.x
@@ -96,8 +110,8 @@ class BoardPresenter
               Point.new(x-1, y, get(x-1, y)),
               Point.new(x+1, y, get(x+1, y))
       ].select { |p|
-        p.color != 0 && (p.color == v.color) && x.in?(1..size) && y.in?(1..size)
-      })
+        p.color != 0 && x.in?(1..size) && y.in?(1..size)
+      }.select { |p| same_color ? (p.color == v.color) : (p.color != v.color) })
     end
 
     def to_a

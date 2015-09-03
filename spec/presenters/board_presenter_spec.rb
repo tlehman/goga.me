@@ -9,6 +9,7 @@ RSpec.describe BoardPresenter do
   let(:black_user) { board.match.black_user }
   let(:presenter) { described_class.new(board) }
   Point = described_class::Point
+  Component = described_class::Component
 
   context "when finding neighboring components" do
     let(:board) { FactoryGirl.create(:board, size: 9) }
@@ -29,7 +30,9 @@ RSpec.describe BoardPresenter do
     end
 
     describe "State" do
-      describe "neighbors" do
+      let(:state) { board.state }
+
+      describe "#neighbors" do
         it "picks all neighbors of the same color" do
           u = Point.new(2,3,black)
           expect(presenter.state.neighbors(u)).to eq(Set.new([
@@ -39,6 +42,74 @@ RSpec.describe BoardPresenter do
           ]))
         end
       end
+
+      describe "#liberties" do
+        before do
+          board.play_move(x: 6, y: 6, color: :black, user: black_user)
+          board.play_move(x: 3, y: 5, color: :white, user: white_user)
+          board.play_move(x: 5, y: 7, color: :black, user: black_user)
+        end
+
+        it "computes the correct state" do
+          expect(presenter.state.to_a).to eq(
+            [[0,0,0,0,0,0,0,0,0],
+             [0,1,0,0,0,0,0,0,0],
+             [0,1,2,1,0,0,0,0,0],
+             [0,1,1,2,0,0,0,0,0],
+             [0,0,2,0,0,0,0,0,0],
+             [0,0,0,0,0,1,2,0,0],
+             [0,0,0,0,1,2,2,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0]]
+          )
+        end
+
+        describe "#liberties" do
+          it "should give a blank point 0 liberties" do
+            blank_point = Point.new(1,1,blank)
+            expect(state.liberties(blank_point)).to eq(0)
+          end
+
+          it "should give a white point with no neighbors 4 liberties" do
+            board.play_move(x: 2, y: 8, color: :white, user: white_user)
+            white_point = Point.new(2, 8, white)
+            expect(state.liberties(white_point)).to eq(4)
+          end
+
+          it "should give a black point with 1 neighbor 3 liberties" do
+            black_point = Point.new(2, 2, black)
+            expect(state.liberties(black_point)).to eq(3)
+          end
+
+          it "should give a white point with 2 neighbors 2 liberties" do
+            white_point = Point.new(7, 7, white)
+            expect(state.liberties(white_point)).to eq(2)
+          end
+
+          it "should give a point with 4 neighbors 0 liberties" do
+            black_point = Point.new(3, 4, black)
+            expect(state.liberties(black_point)).to eq(0)
+          end
+
+        end
+
+        let(:component) {
+          Set.new([
+                  Point.new(2,2,black),
+                  Point.new(2,3,black),
+                  Point.new(2,4,black),
+                  Point.new(3,4,black),
+        ])}
+
+        describe "total_liberties" do
+          it "computes the total liberties of the component" do
+            expect(state.total_liberties(component)).to eq(6)
+          end
+        end
+      end
+    end
+
+    describe "Component" do
     end
 
     it "computes the correct state" do
