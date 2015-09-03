@@ -17,7 +17,7 @@ class BoardPresenter
 
   def components_adjacent_to_last_move
     point = Point.from_move(board.last_move)
-    inverted_neighbors = state.neighbors(point, false)
+    inverted_neighbors = state.enemy_neighbors(point)
     Set.new(inverted_neighbors.map { |n| find_component_containing(n) })
   end
 
@@ -29,7 +29,7 @@ class BoardPresenter
     while !reached.empty?
       v = reached.shift
       # neighbors of v not in (S U R) add to R
-      state.neighbors(v).each do |neighbor|
+      state.team_neighbors(v).each do |neighbor|
         if !reached.include?(neighbor) && !searched.include?(neighbor)
           reached.append(neighbor)
         end
@@ -37,7 +37,7 @@ class BoardPresenter
       searched.add(v)
     end
 
-    Component.new(searched)
+    searched
   end
 
   def to_a
@@ -48,16 +48,6 @@ class BoardPresenter
     def self.from_move(move)
       point = new(move.x, move.y, Move.colors[move.color])
     end
-  end
-
-  class Component < Set
-
-    def initialize(state, *args)
-      @state = state
-      super
-      self
-    end
-
   end
 
   class State
@@ -86,7 +76,7 @@ class BoardPresenter
 
     def liberties(point)
       return 0 if point.color == Move.colors["blank"]
-      (4 + 1) - (neighbors(point).count + neighbors(point, false).count)
+      blank_neighbors(point).count
     end
 
     def total_liberties(component)
@@ -99,7 +89,7 @@ class BoardPresenter
 
 
     # find all neighbors of a point v
-    def neighbors(v, same_color = true)
+    def neighbors(v)
       x = v.x
       y = v.y
 
@@ -109,9 +99,21 @@ class BoardPresenter
               Point.new(x, y+1, get(x, y+1)),
               Point.new(x-1, y, get(x-1, y)),
               Point.new(x+1, y, get(x+1, y))
-      ].select { |p|
-        p.color != 0 && x.in?(1..size) && y.in?(1..size)
-      }.select { |p| same_color ? (p.color == v.color) : (p.color != v.color) })
+      ].select { |p| p.x.in?(1..size) && p.y.in?(1..size) })
+    end
+
+    def blank_neighbors(v)
+      Set.new neighbors(v).select { |p| p.color == Move.colors["blank"] }
+    end
+
+    # neighbors with the same color
+    def team_neighbors(v)
+      Set.new neighbors(v).select { |p| p.color == v.color }
+    end
+
+    # neighbors with the opposite color
+    def enemy_neighbors(v)
+      Set.new neighbors(v).select { |p| p.color != v.color && p.color != Move.colors["blank"]  }
     end
 
     def to_a

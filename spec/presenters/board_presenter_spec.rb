@@ -9,7 +9,6 @@ RSpec.describe BoardPresenter do
   let(:black_user) { board.match.black_user }
   let(:presenter) { described_class.new(board) }
   Point = described_class::Point
-  Component = described_class::Component
 
   context "when finding neighboring components" do
     let(:board) { FactoryGirl.create(:board, size: 9) }
@@ -32,10 +31,11 @@ RSpec.describe BoardPresenter do
     describe "State" do
       let(:state) { board.state }
 
-      describe "#neighbors" do
+      describe "#team_neighbors" do
         it "picks all neighbors of the same color" do
+          puts state
           u = Point.new(2,3,black)
-          expect(presenter.state.neighbors(u)).to eq(Set.new([
+          expect(state.team_neighbors(u)).to eq(Set.new([
             Point.new(2,2,black),
             Point.new(2,3,black),
             Point.new(2,4,black),
@@ -43,7 +43,7 @@ RSpec.describe BoardPresenter do
         end
       end
 
-      describe "#liberties" do
+      context "counting liberties" do
         before do
           board.play_move(x: 6, y: 6, color: :black, user: black_user)
           board.play_move(x: 3, y: 5, color: :white, user: white_user)
@@ -91,6 +91,18 @@ RSpec.describe BoardPresenter do
             expect(state.liberties(black_point)).to eq(0)
           end
 
+          it "should give a point with no neighbors on the edge 3 liberties" do
+            board.play_move(x: 9, y: 3, color: :white, user: white_user)
+            white_point = Point.new(9, 3, white)
+            expect(state.liberties(white_point)).to eq(3)
+          end
+
+          it "should give a point with no neighbors in the corner 2 liberties" do
+            board.play_move(x: 1, y: 1, color: :white, user: white_user)
+            white_point = Point.new(1, 1, white)
+            expect(state.liberties(white_point)).to eq(2)
+          end
+
         end
 
         let(:component) {
@@ -107,9 +119,6 @@ RSpec.describe BoardPresenter do
           end
         end
       end
-    end
-
-    describe "Component" do
     end
 
     it "computes the correct state" do
