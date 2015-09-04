@@ -3,6 +3,7 @@ class MatchesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
 
   def index
+    @websocket_url = websocket_url
     @matches = Match.all.order("id DESC")
   end
 

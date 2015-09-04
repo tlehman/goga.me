@@ -19,8 +19,12 @@
       for(var i = 0; i < points.length; i++) {
         var point = points[i];
         var id = "#" + point.x + "_" + point.y;
-        $(id).css("fill", point.color);
-        $(id).css("opacity", 1);
+        if(point.color == "blank") {
+          $(id).css("opacity", 0);
+        } else {
+          $(id).css("fill", point.color);
+          $(id).css("opacity", 1);
+        }
       }
     }
     dispatcher.trigger('show_board', {match_id: <%= @match.id %>});

@@ -35,34 +35,71 @@ RSpec.describe Board, type: :model do
     end
 
     context "when one user tries to play on an occupied position" do
+
       it "does not allow the move" do
         board.play_move(x: 1, y: 1, color: :black, user: black_user)
         board.play_move(x: 1, y: 1, color: :white, user: white_user)
         expect(board.moves.count).to eq(1)
         expect(board.moves.last.color).to eq("black")
       end
+
+      context "when a position used to be occupied (after a capture)" do
+
+        it "allows the move" do
+          board.play_move(x: 1, y: 1, color: :black, user: black_user)
+          board.capture_moves_at([Point.new(1,1,black)])
+
+          expect {
+            board.play_move(x: 1, y: 1, color: :white, user: white_user)
+          }.to change(board.moves, :count).by(1)
+        end
+
+      end
     end
 
-    it "captures a single piece" do
-      board.play_move(x: 4, y: 5, color: :black, user: black_user)
-      board.play_move(x: 5, y: 5, color: :white, user: white_user)
-      board.play_move(x: 9, y: 4, color: :black, user: black_user)
-      board.play_move(x: 4, y: 4, color: :white, user: white_user)
-      board.play_move(x: 8, y: 4, color: :black, user: black_user)
-      board.play_move(x: 3, y: 5, color: :white, user: white_user)
-      board.play_move(x: 8, y: 5, color: :black, user: black_user)
-      board.play_move(x: 4, y: 6, color: :white, user: white_user)
-      expect(board.state.to_a).to eq(
-        [[0,0,0,0,0,0,0,0,0],
-         [0,0,0,0,0,0,0,0,0],
-         [0,0,0,0,0,0,0,0,0],
-         [0,0,0,2,0,0,0,1,1],
-         [0,0,2,0,2,0,0,1,0],
-         [0,0,0,2,0,0,0,0,0],
-         [0,0,0,0,0,0,0,0,0],
-         [0,0,0,0,0,0,0,0,0],
-         [0,0,0,0,0,0,0,0,0]]
-      )
+    context "capturing" do
+
+      before do
+        board.play_move(x: 4, y: 5, color: :black, user: black_user)
+        board.play_move(x: 5, y: 5, color: :white, user: white_user)
+        board.play_move(x: 9, y: 4, color: :black, user: black_user)
+        board.play_move(x: 4, y: 4, color: :white, user: white_user)
+        board.play_move(x: 8, y: 4, color: :black, user: black_user)
+        board.play_move(x: 3, y: 5, color: :white, user: white_user)
+        board.play_move(x: 8, y: 5, color: :black, user: black_user)
+      end
+
+      it "captures a single piece" do
+        board.play_move(x: 4, y: 6, color: :white, user: white_user)
+        expect(board.state.to_a).to eq(
+          [[0,0,0,0,0,0,0,0,0],
+           [0,0,0,0,0,0,0,0,0],
+           [0,0,0,0,0,0,0,0,0],
+           [0,0,0,2,0,0,0,1,1],
+           [0,0,2,0,2,0,0,1,0],
+           [0,0,0,2,0,0,0,0,0],
+           [0,0,0,0,0,0,0,0,0],
+           [0,0,0,0,0,0,0,0,0],
+           [0,0,0,0,0,0,0,0,0]]
+        )
+      end
+
+      it "does not allow self-capture" do
+        board.play_move(x: 4, y: 6, color: :white, user: white_user)
+        expect {
+          board.play_move(x: 4, y: 5, color: :black, user: black_user)
+        }.to_not change(board.moves, :count)
+      end
+
+      it "allows self-surrounding" do
+        board.play_move(x: 4, y: 6, color: :white, user: white_user)
+        board.play_move(x: 1, y: 1, color: :black, user: black_user)
+        expect(board.last_move.color).to eq("black")
+        expect {
+          board.play_move(x: 4, y: 5, color: :white, user: white_user)
+        }.to change(board.moves, :count).by(1)
+      end
+
     end
 
   end
