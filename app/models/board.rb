@@ -12,6 +12,12 @@ class Board < ActiveRecord::Base
     return "no error: #{moves.count} moves"
   end
 
+  def capture_moves_at(points)
+    points.each do |point|
+      moves.create(x: point.x, y: point.y)
+    end
+  end
+
   def position_occupied?(x:, y:)
     moves.where(x:x, y:y).count > 0
   end
@@ -33,7 +39,7 @@ class Board < ActiveRecord::Base
   def capture_surrounded_groups
     presenter.components_opposite_color_of_last_move.each do |component|
       if presenter.state.total_liberties(component) == 0
-        puts "DESTROY #{components.to_a}"
+        capture_moves_at(component.to_a)
       end
     end
   end

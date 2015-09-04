@@ -8,7 +8,6 @@ RSpec.describe BoardPresenter do
   let(:white_user) { board.match.white_user }
   let(:black_user) { board.match.black_user }
   let(:presenter) { described_class.new(board) }
-  Point = described_class::Point
 
   context "when finding neighboring components" do
     let(:board) { FactoryGirl.create(:board, size: 9) }
@@ -159,7 +158,6 @@ RSpec.describe BoardPresenter do
       }
 
       it "returns the similar connected components of the adjacent pieces" do
-        puts presenter.state
         expected_components = Set.new([black_left, black_top])
         expect(presenter.components_opposite_color_of_last_move).to eq(expected_components)
       end
