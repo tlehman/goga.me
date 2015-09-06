@@ -21,7 +21,7 @@ class MatchesController < ApplicationController
   def create
     @match = Match.create(black_user: black_user, white_user: white_user)
     @match.create_board(board_size)
-    respond_with @match
+    respond_with @match, location: -> { match_path(@match) }
   end
 
   def update

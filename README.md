@@ -7,6 +7,7 @@ The game of [Go](https://en.wikipedia.org/wiki/Go_(game)), implemented using Rub
  - Set user_id on Move creation
  - UI for whose turn it is
  - Chat aside
+ - Prevent self-capture
  - Implement ko rule
  - Implement pass
    - back end
