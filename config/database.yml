@@ -14,6 +14,8 @@ test:
   database: goga_me_test
 
 production:
+  adapter: postgresql
+  encoding: unicode
   username: rails
   password: <%= ENV['GOGAME_DATABASE_PASSWORD'] %>
 
