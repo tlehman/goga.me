@@ -4,8 +4,6 @@ The game of [Go](https://en.wikipedia.org/wiki/Go_(game)), implemented using Rub
 
 # TODO
 
- - Set user_id on Move creation
- - UI for whose turn it is
  - Chat aside
  - Prevent self-capture
  - Implement ko rule

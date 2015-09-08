@@ -24,6 +24,12 @@ RSpec.describe Board, type: :model do
       expect(board.moves.last.x).to eq(2)
     end
 
+    it "sets the user_id of the move" do
+      board.play_move(x: 1, y: 1, color: :black, user: black_user)
+      expect(board.last_move.user_id).to_not eq(nil)
+      expect(board.last_move.user_id).to eq(black_user.id)
+    end
+
     context "when one user tries to play twice in row" do
       it "does not allow the move" do
         expect(board.match.white_user_id).to_not eq(board.match.black_user_id)

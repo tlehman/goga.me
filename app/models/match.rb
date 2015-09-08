@@ -16,4 +16,15 @@ class Match < ActiveRecord::Base
 
     self.board = Board.create(size: size, match_id: self.id)
   end
+
+  def current_turn_user_id
+    return self.black_user_id if board.last_move.nil?
+    (board.last_move.color == "black") ? self.white_user_id : self.black_user_id
+  end
+
+  def current_turn_color
+    (current_turn_user_id == black_user_id) ? :black : :white
+  end
+
+
 end

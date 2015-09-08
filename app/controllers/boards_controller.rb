@@ -17,7 +17,11 @@ class BoardsController < WebsocketRails::BaseController
   private
 
   def match_show_board(board_state, error_message = nil)
-    WebsocketRails["match_#{board.match_id}".to_sym].trigger(:show_board, message: {board_state: board_state, error_message: error_message})
+    WebsocketRails["match_#{board.match_id}".to_sym].trigger(:show_board, message: {
+      board_state: board_state,
+      current_turn_color: board.match.current_turn_color,
+      error_message: error_message,
+    })
   end
 
   def index_show_match_stats(stats)

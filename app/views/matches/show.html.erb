@@ -1,9 +1,18 @@
 <header>
-<%= @match.black_user_email %> vs <%= @match.white_user_email %>
+  <span class="black-user">
+    <%= @match.black_user_email %>
+  </span>&nbsp;vs
+  <span class="white-user">
+    <%= @match.white_user_email %>
+  </span>
+  <br>
+  <br>
+
+  <span class="current-turn <%= @match.current_turn_color %>-user">
+    Currently up: <span class="current-turn-color"><%= @match.current_turn_color %></span>
+  </span>
 </header>
 
-<br>
-<br>
 <br>
 
 <% w = @width + BoardHelper::OFFSET %>
@@ -27,11 +36,24 @@
         }
       }
     }
+
+    function updateTurn(color) {
+      $(".current-turn-color").text(color);
+
+      if(color === "black") {
+        $(".current-turn").addClass("black-user");
+        $(".current-turn").removeClass("white-user");
+      } else {
+        $(".current-turn").removeClass("black-user");
+        $(".current-turn").addClass("white-user");
+      }
+    }
+
     dispatcher.trigger('show_board', {match_id: <%= @match.id %>});
 
     channel.bind('show_board', function(data) {
       console.log(data.message.error_message);
-      console.log(data.message.board_state);
+      updateTurn(data.message.current_turn_color);
       drawBoard(data.message.board_state);
     });
 

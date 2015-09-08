@@ -1,3 +1,18 @@
 // Place all the styles related to the matches controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.current-turn {
+  font-weight: bold;
+}
+
+.white-user {
+  padding: 4px;
+  background-color: #eee;
+  color: black;
+}
+
+.black-user {
+  padding: 4px;
+  background-color: #444;
+  color: white;
+}
