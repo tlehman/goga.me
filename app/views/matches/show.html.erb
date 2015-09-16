@@ -35,10 +35,17 @@
           $(id).css("opacity", 1);
         }
       }
+      // highlight last move
+      var lastPoint = points[points.length-1];
+      if(lastPoint) {
+        var id = "#" + lastPoint.x + "_" + lastPoint.y;
+        $(id).css("opacity", 0.5);
+      }
     }
 
     function updateTurn(color) {
       $(".current-turn-color").text(color);
+      $("#favicon").attr("href", "/favicon-"+color+".ico")
 
       if(color === "black") {
         $(".current-turn").addClass("black-user");
