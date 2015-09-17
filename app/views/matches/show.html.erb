@@ -24,6 +24,14 @@
     var dispatcher = new WebSocketRails('<%= @websocket_url %>');
     var channel = dispatcher.subscribe("match_" + <%= @match.id %>);
 
+    function lastNonBlankPoint(points) {
+      for(var i=points.length-1; i > 0; i--) {
+        if(points[i].color !== "blank") {
+          return points[i];
+        }
+      }
+    }
+
     function drawBoard(points) {
       for(var i = 0; i < points.length; i++) {
         var point = points[i];
@@ -36,7 +44,7 @@
         }
       }
       // highlight last move
-      var lastPoint = points[points.length-1];
+      var lastPoint = lastNonBlankPoint(points);
       if(lastPoint) {
         var id = "#" + lastPoint.x + "_" + lastPoint.y;
         $(id).css("opacity", 0.5);

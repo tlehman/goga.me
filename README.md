@@ -4,7 +4,6 @@ The game of [Go](https://en.wikipedia.org/wiki/Go_(game)), implemented using Rub
 
 # TODO
 
- - Make current turn work in single player mode
  - Chat aside
  - Prevent self-capture
  - Implement ko rule

@@ -23,6 +23,7 @@ class Match < ActiveRecord::Base
   end
 
   def current_turn_color
+    return board.last_move.opposite_color if black_user_id == white_user_id
     (current_turn_user_id == black_user_id) ? :black : :white
   end
 
