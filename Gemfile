@@ -9,6 +9,7 @@ gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'sass-rails', '~> 5.0'
 gem 'rails-erd'
+gem 'thin'
 
 # assets
 gem 'uglifier', '>= 1.3.0'
