@@ -1,6 +1,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  username: <%= `whoami`.strip %>
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
@@ -8,10 +9,12 @@ default: &default
 development:
   <<: *default
   database: goga_me_development
+  host: localhost
 
 test:
   <<: *default
   database: goga_me_test
+  host: localhost
 
 production:
   adapter: postgresql
