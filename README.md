@@ -6,6 +6,7 @@ The game of [Go](https://en.wikipedia.org/wiki/Go_(game)), implemented using Rub
 
  - Chat aside
  - Prevent self-capture
+ - Capture doesn't work on bottom edge
  - Implement ko rule
  - Implement pass
    - back end

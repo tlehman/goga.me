@@ -8,7 +8,7 @@ class Board < ActiveRecord::Base
     return "color same as last"       if color_same_as_last_move?(color)
     return "position occupied"        if position_occupied?(x:x, y:y)
     # FIXME: Self capture code prevents any moves from being played
-    #return "self capture not allowed" if play_would_self_capture?(x,y,color)
+    return "self capture not allowed" if play_would_self_capture?(x,y,color)
     moves << move
     capture_surrounded_groups
     return "no error: #{moves.count} moves"
