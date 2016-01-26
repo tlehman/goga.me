@@ -1,4 +1,10 @@
 class Board < ActiveRecord::Base
+  class Point < Struct.new(:x, :y, :color)
+    def self.from_move(move)
+      point = new(move.x, move.y, Move.colors[move.color])
+    end
+  end
+
   belongs_to :match
   delegate :state, to: :presenter
   has_many :moves

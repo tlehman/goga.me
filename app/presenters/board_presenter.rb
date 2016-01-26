@@ -16,7 +16,7 @@ class BoardPresenter
   end
 
   def components_opposite_color_of_last_move
-    point = Point.from_move(board.last_move)
+    point = Board::Point.from_move(board.last_move)
     inverted_neighbors = state.enemy_neighbors(point)
     Set.new(inverted_neighbors.map { |n| find_component_containing(n) })
   end
@@ -42,12 +42,6 @@ class BoardPresenter
 
   def to_a
     moves.map(&:to_h)
-  end
-
-  class Point < Struct.new(:x, :y, :color)
-    def self.from_move(move)
-      point = new(move.x, move.y, Move.colors[move.color])
-    end
   end
 
   class State
@@ -94,11 +88,11 @@ class BoardPresenter
       y = v.y
 
       Set.new([
-              Point.new(x, y, get(x, y)),
-              Point.new(x, y-1, get(x, y-1)),
-              Point.new(x, y+1, get(x, y+1)),
-              Point.new(x-1, y, get(x-1, y)),
-              Point.new(x+1, y, get(x+1, y))
+              Board::Point.new(x, y, get(x, y)),
+              Board::Point.new(x, y-1, get(x, y-1)),
+              Board::Point.new(x, y+1, get(x, y+1)),
+              Board::Point.new(x-1, y, get(x-1, y)),
+              Board::Point.new(x+1, y, get(x+1, y))
       ].select { |p| p.x.in?(1..size) && p.y.in?(1..size) })
     end
 

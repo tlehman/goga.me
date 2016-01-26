@@ -57,4 +57,4 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 end
 
-Point = BoardPresenter::Point if !defined?(Point)
+Point = Board::Point if !defined?(Point)
