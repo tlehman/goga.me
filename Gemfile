@@ -8,7 +8,6 @@ gem 'redis'
 gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'sass-rails', '~> 5.0'
-gem 'rails-erd'
 gem 'puma'
 gem 'actioncable', github: 'rails/actioncable', ref: '6143352f8ffba303f0c7644be7573f6725554cb3'
 

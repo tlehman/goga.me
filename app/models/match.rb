@@ -3,8 +3,8 @@ class Match < ActiveRecord::Base
   belongs_to :white_user, class_name: "User", foreign_key: :white_user_id
   has_one :board
 
-  delegate :email, to: :black_user, prefix: true, allow_nil: true
-  delegate :email, to: :white_user, prefix: true, allow_nil: true
+  delegate :name, to: :black_user, prefix: true, allow_nil: true
+  delegate :name, to: :white_user, prefix: true, allow_nil: true
   delegate :size, to: :board, prefix: true, allow_nil: true
 
   def joined?
