@@ -4,9 +4,9 @@ The game of [Go](https://en.wikipedia.org/wiki/Go_(game)), implemented using Rub
 
 # TODO
 
- - Chat aside
  - Prevent self-capture
  - Capture doesn't work on bottom edge
+ - Chat aside
  - Implement ko rule
  - Implement pass
    - back end
