@@ -5,6 +5,7 @@
   <span class="white-user">
     <%= @match.white_user_name %>
   </span>
+
   <br>
   <br>
 
@@ -15,74 +16,42 @@
 
 <br>
 
+<script>
+</script>
+
 <div class="board-container">
 <% w = @width + BoardHelper::OFFSET %>
 <svg id="board" width="<%= w %>" height="<%= w %>">
 <rect xmlns="http://www.w3.org/2000/svg" width="<%= w %>" height="<%= w %>" fill="#DCB35C"/>
   <%= raw draw_board_svg(size: @match.board_size, width: @width) %>
   <%= raw draw_grid_intersection_points(size: @match.board_size, width: @width) %>
-  <script type="text/javascript"><![CDATA[
-    var dispatcher = new WebSocketRails('<%= @websocket_url %>');
-    var channel = dispatcher.subscribe("match_" + <%= @match.id %>);
-
-    function lastNonBlankPoint(points) {
-      for(var i=points.length-1; i > 0; i--) {
-        if(points[i].color !== "blank") {
-          return points[i];
-        }
-      }
-    }
-
-    function drawBoard(points) {
-      for(var i = 0; i < points.length; i++) {
-        var point = points[i];
-        var id = "#" + point.x + "_" + point.y;
-        if(point.color == "blank") {
-          $(id).css("opacity", 0);
-        } else {
-          $(id).css("fill", point.color);
-          $(id).css("opacity", 1);
-        }
-      }
-      // highlight last move
-      var lastPoint = lastNonBlankPoint(points);
-      if(lastPoint) {
-        var id = "#" + lastPoint.x + "_" + lastPoint.y;
-        $(id).css("opacity", 0.5);
-      }
-    }
-
-    function updateTurn(color) {
-      $(".current-turn-color").text(color);
-      $("#favicon").attr("href", "/favicon-"+color+".ico")
-
-      if(color === "black") {
-        $(".current-turn").addClass("black-user");
-        $(".current-turn").removeClass("white-user");
-      } else {
-        $(".current-turn").removeClass("black-user");
-        $(".current-turn").addClass("white-user");
-      }
-    }
-
-    dispatcher.trigger('show_board', {match_id: <%= @match.id %>});
-
-    channel.bind('show_board', function(data) {
-      console.log(data.message.error_message);
-      updateTurn(data.message.current_turn_color);
-      drawBoard(data.message.board_state);
-    });
-
-
-    function handleMove(x,y) {
-      <% if current_user.present? %>
-        dispatcher.trigger('update_board', {match_id: <%= @match.id %>, x: x, y: y, user_id: <%= current_user.id %>});
-      <% end %>
-    }
-  ]]></script>
 </svg>
 </div>
 
+<%= content_for :chatbox do %>
+  <div>
+    <div id="chat_div">
+    </div>
+    <hr />
+    <div id="log">
+    </div>
+  </div>
+<% end %>
+
 <script type="text/javascript">
+$(document).ready(function(){
+  $("#chat_div").chatbox({id : "chat_div",
+    title : "Chat",
+    user : "<%= current_user.name %>",
+    offset : 25,
+    messageSent: function(id, user, msg){
+      $("#chat_div").chatbox("option", "boxManager").addMsg(user, msg);
+    }
+  });
+
+  // to insert a message
+  $("#chat_div").chatbox("option", "boxManager").addMsg("gobot", "You can taunt your opponent here. Or just chat. I don't care");
+});
+
 </script>
 

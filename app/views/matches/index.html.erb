@@ -10,25 +10,17 @@
 <table class="matches table">
   <tr>
     <th>Moves</th>
-    <th>Board size</th>
-    <th>Black user_id</th>
-    <th>White user_id</th>
-    <th>View as Spectator</th>
-    <th>Join as Player</th>
+    <th>Black user</th>
+    <th>White user</th>
+    <th>View</th>
   </tr>
 
   <% @matches.each do |match| %>
     <tr id="match_<%= match.id %>">
       <td><%= match.board.moves.count %></td>
-      <td><%= match.board_size %>x<%= match.board_size %></td>
-      <td><%= match.black_user_id %></td>
-      <td><%= match.white_user_id %></td>
+      <td><%= match.black_user_name %></td>
+      <td><%= match.white_user_name %></td>
       <td><%= link_to "View", match_path(match) %></td>
-      <td>
-        <%= form_for match, action: :patch do |f| %>
-          <%= f.submit "Join" unless match.joined? %>
-        <% end %>
-      </td>
     </tr>
   <% end %>
 </table>
