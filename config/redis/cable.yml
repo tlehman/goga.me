@@ -1,6 +1,6 @@
 local: &local
   :url: redis://localhost:6379
-  :host: localhost
+  :host: redis
   :port: 6379
   :timeout: 1
   :inline: true
