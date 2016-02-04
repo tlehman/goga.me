@@ -11,3 +11,8 @@ The game of [Go](https://en.wikipedia.org/wiki/Go_(game)), implemented using Rub
    - back end
    - front end
  - Implement scoring
+ - Add AI to play against
+ - Add blog section
+ - Add learning section
+ - Add about / contact pages
+ - Add donation button
