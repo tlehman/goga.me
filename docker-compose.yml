@@ -1,0 +1,15 @@
+redis:
+  image: redis
+
+db:
+  image: postgres
+
+web:
+  build: .
+  ports:
+   - "5006:5006"
+  volumes:
+   - .:/home/rails/goga.me
+  links:
+   - redis
+   - db

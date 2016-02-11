@@ -15,7 +15,7 @@
     <br />
 
     <h2>Invite someone to join?</h2>
-    <%= f.select(:white_user_id, [""] + @users.pluck(:email, :id)) %>
+    <%= f.select(:white_user_id, [""] + @users.pluck(:name, :id)) %>
 
     <%= f.submit "Start Match" %>
   <% end %>
