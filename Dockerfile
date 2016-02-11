@@ -15,5 +15,6 @@ EXPOSE 5006
 
 # Add the app code
 ADD . $HOME
-CMD ["rails", "server", "--binding", "0.0.0.0"]
+
+CMD ["rails", "server", "--binding", "0.0.0.0", "--port", "5006"]
 
