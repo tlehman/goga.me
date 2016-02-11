@@ -1,0 +1,18 @@
+
+<script type="text/javascript">
+$(document).ready(function(){
+  
+  $("#chat_div").chatbox({id : "chat_div",
+    title : "Chat",
+    user : "<%= current_user.name %>",
+    offset : 25,
+    messageSent: function(id, user, msg){
+      $("#chat_div").chatbox("option", "boxManager").addMsg(user, msg);
+    }
+  });
+
+  // to insert a message
+  $("#chat_div").chatbox("option", "boxManager").addMsg("gobot", "You can taunt your opponent here. Or just chat. I don't care");
+});
+
+</script>
